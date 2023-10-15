@@ -1,13 +1,27 @@
 <script setup lang="ts">
-//
+import { onLoad } from '@dcloudio/uni-app';
+import { getCategoryApi } from '@/services/home'
+import { ref } from 'vue';
+import type { CategoryItem } from '@/types/home'
+
+const categoryData = ref<CategoryItem[]>([])
+const getCategoryData = async () => {
+    const res = await getCategoryApi()
+    categoryData.value = res.result
+}
+onLoad(() => {
+    getCategoryData()
+})
+
 </script>
 
 <template>
     <view class="category">
-        <navigator class="category-item" hover-class="none" url="/pages/index/index" v-for="item in 10" :key="item">
-            <image class="icon" src="https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/nav_icon_1.png">
+        <navigator class="category-item" hover-class="none" url="/pages/index/index" v-for="item in categoryData"
+            :key="item.id">
+            <image class="icon" :src="item.icon">
             </image>
-            <text class="text">居家</text>
+            <text class="text">{{ item.name }}</text>
         </navigator>
     </view>
 </template>

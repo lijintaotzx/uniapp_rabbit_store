@@ -4,3 +4,9 @@ export type BannerItem = {
     id: string,
     type: string,
 }
+
+export type CategoryItem = {
+    id: string,
+    name: string,
+    icon: string,
+}
