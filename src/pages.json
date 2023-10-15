@@ -4,7 +4,9 @@
     "autoscan": true, //是否开启自动扫描
     "custom": {
       // uni-ui 规则如下配置（通过正则自动导入）
-      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+      // 通用组件自动导入,正则匹配以Xtx开头
+      "^Xtx(.*)": "@/components/Xtx$1.vue"
     }
   },
   "pages": [
@@ -12,7 +14,9 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "首页"
+        "navigationBarTitleText": "首页",
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom" // 隐藏默认导航栏
       }
     },
     {
