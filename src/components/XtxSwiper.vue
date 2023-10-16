@@ -8,8 +8,6 @@ const activeIndex = ref(0)
 const changeSwiper: UniHelper.SwiperOnChange = (e) => {
   activeIndex.value = e.detail!.current // !为非空断言，current一定存在，排除掉undefined的情况
 }
-
-
 </script>
 
 <template>

@@ -3,6 +3,7 @@
 import { onLoad } from '@dcloudio/uni-app';
 import CustomNavbar from './components/CustomNavbar.vue'
 import CategoryPanel from './components/CategoryPanel.vue';
+import Hotpanel from './components/Hotpanel.vue';
 import { getHomeBannerApi } from '@/services/home'
 import { ref } from 'vue';
 import type { BannerItem } from '@/types/home'
@@ -24,6 +25,7 @@ onLoad(() => {
     <CustomNavbar />
     <XtxSwiper :bannerList="banneList" />
     <CategoryPanel />
+    <Hotpanel />
   </view>
 </template>
 
