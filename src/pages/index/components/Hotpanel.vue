@@ -10,7 +10,6 @@ const HotData = ref<HotItem[]>([])
 const getHotData = async () => {
     const res = await getHotApi()
     HotData.value = res.result
-    console.log(123, HotData.value)
 }
 onLoad(() => {
     getHotData()

@@ -1,3 +1,14 @@
+<template>
+  <CustomNavbar />
+  <scroll-view class="scroll-view" scroll-y :refresher-enabled="true" :refresher-triggered="true"
+    @refresherrefresh="onRefresherrefresh" @scrolltolower="onScrolltolower">
+    <XtxSwiper :bannerList="banneList" />
+    <CategoryPanel />
+    <Hotpanel />
+    <XtxGuess ref="guessRef" />
+  </scroll-view>
+</template>
+
 <script setup lang="ts">
 //
 import { onLoad } from '@dcloudio/uni-app';
@@ -7,7 +18,7 @@ import Hotpanel from './components/Hotpanel.vue';
 import { getHomeBannerApi } from '@/services/home'
 import { ref } from 'vue';
 import type { BannerItem } from '@/types/home'
-import type XtxGuessVue from '@/components/XtxGuess.vue';
+import type { XtxGuessInstance } from '@/types/component'
 
 // 获取轮播图数据
 const banneList = ref<BannerItem[]>([])
@@ -15,21 +26,21 @@ const getHomeBanner = async () => {
   const bannerData = await getHomeBannerApi()
   banneList.value = bannerData.result
 }
+const onRefresherrefresh = () => {
+  console.log('下拉刷新了！')
+}
+// 获取猜你喜欢ref实例
+const guessRef = ref<XtxGuessInstance>()
+const onScrolltolower = () => {
+  console.log('滚动到底了！当前页码：', guessRef.value?.pageInfo)
+  guessRef.value?.getMore()
+
+}
 
 onLoad(() => {
   getHomeBanner()
 })
 </script>
-
-<template>
-  <CustomNavbar />
-  <scroll-view class="scroll-view" scroll-y>
-    <XtxSwiper :bannerList="banneList" />
-    <CategoryPanel />
-    <Hotpanel />
-    <XtxGuess />
-  </scroll-view>
-</template>
 
 <style lang="scss">
 //
