@@ -2,10 +2,13 @@
   <CustomNavbar />
   <scroll-view class="scroll-view" scroll-y :refresher-enabled="true" :refresher-triggered="refreshTrigger"
     @refresherrefresh="onRefresherrefresh" @scrolltolower="onScrolltolower">
-    <XtxSwiper :bannerList="banneList" />
-    <CategoryPanel ref="categoryRef" />
-    <HotPanel ref="hotRef" />
-    <XtxGuess ref="guessRef" />
+    <PageSkeleton v-if="false" />
+    <template v-else>
+      <XtxSwiper :bannerList="banneList" />
+      <CategoryPanel ref="categoryRef" />
+      <HotPanel ref="hotRef" />
+      <XtxGuess ref="guessRef" />
+    </template>
   </scroll-view>
 </template>
 
@@ -15,6 +18,7 @@ import { onLoad } from '@dcloudio/uni-app';
 import CustomNavbar from './components/CustomNavbar.vue'
 import CategoryPanel from './components/CategoryPanel.vue';
 import HotPanel from './components/HotPanel.vue';
+import PageSkeleton from './components/PageSkeleton.vue';
 import { getHomeBannerApi } from '@/services/home'
 import { ref } from 'vue';
 import type { BannerItem, CategoryPanelInstance, HotPanelInstance } from '@/types/home'
@@ -30,6 +34,7 @@ const onScrolltolower = () => {
 }
 const banneList = ref<BannerItem[]>([])
 const refreshTrigger = ref(false)
+const isLoading = ref(false)
 
 // 获取轮播图数据
 const getHomeBanner = async () => {
@@ -50,8 +55,10 @@ const onRefresherrefresh = async () => {
   refreshTrigger.value = false
 }
 
-onLoad(() => {
-  getHomeBanner()
+onLoad(async () => {
+  // TODO
+  // isLoading.value = true
+  await getHomeBanner()
 })
 </script>
 
