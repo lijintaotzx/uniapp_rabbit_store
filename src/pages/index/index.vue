@@ -20,18 +20,18 @@ import { ref } from 'vue';
 import type { BannerItem, CategoryPanelInstance, HotPanelInstance } from '@/types/home'
 import type { XtxGuessInstance } from '@/types/component'
 
-// 获取猜你喜欢ref实例
 const guessRef = ref<XtxGuessInstance>()
 const hotRef = ref<HotPanelInstance>()
 const categoryRef = ref<CategoryPanelInstance>()
+
 const onScrolltolower = () => {
   console.log('滚动到底了！当前页码：', guessRef.value?.pageInfo)
   guessRef.value?.getMore()
 }
-// 获取轮播图数据
 const banneList = ref<BannerItem[]>([])
 const refreshTrigger = ref(false)
 
+// 获取轮播图数据
 const getHomeBanner = async () => {
   const bannerData = await getHomeBannerApi()
   banneList.value = bannerData.result

@@ -33,6 +33,7 @@ const resetPage = () => {
         pageSize: 8,
     }
     items.value = []
+    finished.value = false
     updateGuessData()
 }
 
