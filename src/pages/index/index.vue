@@ -1,7 +1,13 @@
 <template>
   <CustomNavbar />
-  <scroll-view class="scroll-view" scroll-y :refresher-enabled="true" :refresher-triggered="refreshTrigger"
-    @refresherrefresh="onRefresherrefresh" @scrolltolower="onScrolltolower">
+  <scroll-view
+    class="scroll-view"
+    scroll-y
+    :refresher-enabled="true"
+    :refresher-triggered="refreshTrigger"
+    @refresherrefresh="onRefresherrefresh"
+    @scrolltolower="onScrolltolower"
+  >
     <PageSkeleton v-if="false" />
     <template v-else>
       <XtxSwiper :bannerList="banneList" />
@@ -14,13 +20,13 @@
 
 <script setup lang="ts">
 //
-import { onLoad } from '@dcloudio/uni-app';
+import { onLoad } from '@dcloudio/uni-app'
 import CustomNavbar from './components/CustomNavbar.vue'
-import CategoryPanel from './components/CategoryPanel.vue';
-import HotPanel from './components/HotPanel.vue';
-import PageSkeleton from './components/PageSkeleton.vue';
+import CategoryPanel from './components/CategoryPanel.vue'
+import HotPanel from './components/HotPanel.vue'
+import PageSkeleton from './components/PageSkeleton.vue'
 import { getHomeBannerApi } from '@/services/home'
-import { ref } from 'vue';
+import { ref } from 'vue'
 import type { BannerItem, CategoryPanelInstance, HotPanelInstance } from '@/types/home'
 import type { XtxGuessInstance } from '@/types/component'
 
@@ -50,7 +56,12 @@ const onRefresherrefresh = async () => {
   // await hotRef.value?.refresh()
   // await guessRef.value?.resetPage()
   // API一起加载数据
-  await Promise.all([getHomeBanner(), categoryRef.value?.refresh(), hotRef.value?.refresh(), guessRef.value?.resetPage()])
+  await Promise.all([
+    getHomeBanner(),
+    categoryRef.value?.refresh(),
+    hotRef.value?.refresh(),
+    guessRef.value?.resetPage(),
+  ])
   console.log('数据刷新了')
   refreshTrigger.value = false
 }
@@ -65,7 +76,7 @@ onLoad(async () => {
 <style lang="scss">
 //
 page {
-  background: #F7F7F7;
+  background: #f7f7f7;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -75,4 +86,3 @@ page {
   flex: 1;
 }
 </style>
-
