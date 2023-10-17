@@ -15,6 +15,9 @@ onLoad(() => {
     getHotData()
 })
 
+defineExpose({
+    refresh: getHotData
+})
 </script>
 
 <template>

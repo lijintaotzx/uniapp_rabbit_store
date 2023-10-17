@@ -13,6 +13,9 @@ onLoad(() => {
     getCategoryData()
 })
 
+defineExpose({
+    refresh: getCategoryData
+})
 </script>
 
 <template>

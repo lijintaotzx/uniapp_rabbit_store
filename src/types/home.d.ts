@@ -1,3 +1,6 @@
+import CategoryPanel from '@/pages/index/components/CategoryPanel.vue'
+import HotPanel from '@/pages/index/components/HotPanel.vue'
+
 export type BannerItem = {
     hrefUrl: string,
     imgUrl: string,
@@ -19,3 +22,6 @@ export type HotItem = {
     title: string,
     type: number,
 }
+
+export type CategoryPanelInstance = InstanceType<typeof CategoryPanel>
+export type HotPanelInstance = InstanceType<typeof HotPanel>

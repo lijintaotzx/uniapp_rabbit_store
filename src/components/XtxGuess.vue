@@ -27,10 +27,19 @@ const updateGuessData = async () => {
 onLoad(() => {
     updateGuessData()
 })
+const resetPage = () => {
+    pageInfo.value = {
+        page: 1,
+        pageSize: 8,
+    }
+    items.value = []
+    updateGuessData()
+}
 
 defineExpose({
     getMore: updateGuessData,
-    pageInfo
+    pageInfo,
+    resetPage,
 })
 </script>
 
