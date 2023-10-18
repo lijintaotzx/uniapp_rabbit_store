@@ -3,6 +3,6 @@ export type LoginResult = {
   avatar: string
   id: number
   mobile: string
-  nikename: string
+  nickname: string
   token: string
 }
