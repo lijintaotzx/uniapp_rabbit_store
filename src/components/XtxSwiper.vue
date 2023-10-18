@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BannerItem } from '@/types/home';
+import type { BannerItem } from '@/types/home'
 import { ref } from 'vue'
 
 const props = defineProps<{ bannerList: BannerItem[] }>()
@@ -22,8 +22,12 @@ const changeSwiper: UniHelper.SwiperOnChange = (e) => {
 
     <!-- 指示点 -->
     <view class="indicator">
-      <text v-for="(item, index) in bannerList.length" :key="item" class="dot"
-        :class="{ active: index === activeIndex }"></text>
+      <text
+        v-for="(item, index) in bannerList.length"
+        :key="item"
+        class="dot"
+        :class="{ active: index === activeIndex }"
+      ></text>
     </view>
   </view>
 </template>
