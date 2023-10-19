@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMemberStore } from '@/stores'
 //
+console.log('settings.vue')
 const memberStore = useMemberStore()
 const onLogout = () => {
   uni.showModal({

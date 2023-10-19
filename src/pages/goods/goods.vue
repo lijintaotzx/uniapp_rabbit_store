@@ -1,8 +1,8 @@
 // src/pages/goods/goods.vue
 <template>
-  <PageSkeleton v-if="loadingPage" />
-  <view v-else>
-    <scroll-view scroll-y class="viewport">
+  <scroll-view scroll-y class="viewport">
+    <PageSkeleton v-if="loadingPage" />
+    <view v-else>
       <!-- 基本信息 -->
       <view class="goods">
         <!-- 商品主图 -->
@@ -91,31 +91,31 @@
           </navigator>
         </view>
       </view>
-    </scroll-view>
-
-    <!-- 用户操作 -->
-    <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
-      <view class="icons">
-        <button class="icons-button"><text class="icon-heart"></text>收藏</button>
-        <button class="icons-button" open-type="contact">
-          <text class="icon-handset"></text>客服
-        </button>
-        <navigator class="icons-button" url="/pages/cart/cart" open-type="switchTab">
-          <text class="icon-cart"></text>购物车
-        </navigator>
-      </view>
-      <view class="buttons">
-        <view class="addcart"> 加入购物车 </view>
-        <view class="buynow"> 立即购买 </view>
-      </view>
     </view>
+  </scroll-view>
 
-    <!-- 弹出层 -->
-    <uni-popup ref="popup" type="bottom" background-color="#fff">
-      <ServicePanel v-if="popupName === 'service'" @closePopup="closePopup" />
-      <AddressPanel v-if="popupName === 'address'" @closePopup="closePopup" />
-    </uni-popup>
+  <!-- 用户操作 -->
+  <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
+    <view class="icons">
+      <button class="icons-button"><text class="icon-heart"></text>收藏</button>
+      <button class="icons-button" open-type="contact">
+        <text class="icon-handset"></text>客服
+      </button>
+      <navigator class="icons-button" url="/pages/cart/cart" open-type="switchTab">
+        <text class="icon-cart"></text>购物车
+      </navigator>
+    </view>
+    <view class="buttons">
+      <view class="addcart"> 加入购物车 </view>
+      <view class="buynow"> 立即购买 </view>
+    </view>
   </view>
+
+  <!-- 弹出层 -->
+  <uni-popup ref="popup" type="bottom" background-color="#fff">
+    <ServicePanel v-if="popupName === 'service'" @closePopup="closePopup" />
+    <AddressPanel v-if="popupName === 'address'" @closePopup="closePopup" />
+  </uni-popup>
 </template>
 <script setup lang="ts">
 import { getGoodsDetailApi } from '@/services/goods'
@@ -148,8 +148,8 @@ const closePopup = () => {
   popup.value.close()
 }
 const activePictureIndex = ref(0)
-onLoad(() => {
-  getGoodsDetail()
+onLoad(async () => {
+  await getGoodsDetail()
   loadingPage.value = false
 })
 const swiperChange: UniHelper.SwiperOnChange = (e) => {
