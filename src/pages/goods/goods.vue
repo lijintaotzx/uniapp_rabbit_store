@@ -1,5 +1,6 @@
 // src/pages/goods/goods.vue
 <template>
+  <vk-data-goods-sku-popup v-model="showSKU" :localdata="localData" />
   <scroll-view scroll-y class="viewport">
     <PageSkeleton v-if="loadingPage" />
     <view v-else>
@@ -31,7 +32,7 @@
 
         <!-- 操作面板 -->
         <view class="action">
-          <view class="item arrow">
+          <view class="item arrow" @tap="showSKU = true">
             <text class="label">选择</text>
             <text class="text ellipsis"> 请选择商品规格 </text>
           </view>
@@ -118,6 +119,7 @@
   </uni-popup>
 </template>
 <script setup lang="ts">
+import type { SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 import { getGoodsDetailApi } from '@/services/goods'
 import type { GoodsResult } from '@/types/goods'
 import { onLoad } from '@dcloudio/uni-app'
@@ -129,11 +131,37 @@ import PageSkeleton from '@/pages/goods/components/PageSkeleton.vue'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
+const showSKU = ref(false)
 const goodsDetail = ref<GoodsResult>()
+const localData = ref({} as SkuPopupLocaldata)
 const query = defineProps<{ id: string }>()
 const getGoodsDetail = async () => {
   const res = await getGoodsDetailApi(query)
   goodsDetail.value = res.result
+
+  // 转换为SKU格式
+  localData.value = {
+    _id: res.result.id,
+    name: res.result.name,
+    goods_thumb: res.result.mainPictures[0],
+    spec_list: res.result.specs.map((item) => {
+      return {
+        name: item.name,
+        list: item.values,
+      }
+    }),
+    sku_list: res.result.skus.map((item) => {
+      return {
+        _id: item.id,
+        goods_id: res.result.id,
+        goods_name: res.result.name,
+        image: item.picture,
+        price: item.price * 100, // 插件需要价格*100
+        sku_name_arr: item.specs.map((v) => v.valueName),
+        stock: item.inventory,
+      }
+    }),
+  }
 }
 const loadingPage = ref(true)
 // 弹出层组件ref
