@@ -37,7 +37,7 @@ const deleteAddress = (id: string) => {
       <view v-if="AddressList?.length" class="address">
         <uni-swipe-action class="address-list">
           <!-- 收货地址项 -->
-          <uni-swipe-action-item class="item" v-for="(item, index) in AddressList" :key="item.id">
+          <uni-swipe-action-item class="item" v-for="item in AddressList" :key="item.id">
             <view class="item-content">
               <view class="user">
                 {{ item.receiver }}
