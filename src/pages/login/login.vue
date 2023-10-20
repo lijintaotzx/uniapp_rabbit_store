@@ -29,7 +29,8 @@ const onGetPhoneNumberSimple = async () => {
     // 存储用户信息
     memberStore.setProfile(res.result)
     // 跳转
-    uni.switchTab({ url: '/pages/my/my' })
+    // uni.switchTab({ url: '/pages/my/my' })
+    uni.navigateBack()
     uni.showToast({ icon: 'success', title: '登录成功' })
   } else {
     uni.showToast({ icon: 'none', title: 'Api出错了' })

@@ -1,6 +1,19 @@
 // src/pages/goods/goods.vue
 <template>
-  <vk-data-goods-sku-popup v-model="showSKU" :localdata="localData" />
+  <vk-data-goods-sku-popup
+    ref="skuRef"
+    :mode="skuMode"
+    v-model="showSku"
+    :localdata="localData"
+    add-cart-background-color="#FFA868"
+    buy-now-background-color="#27BA9B"
+    :actived-style="{
+      color: '#27BA9B',
+      borderColor: '#27BA9B',
+      backgroundColor: '#E9F8F5',
+    }"
+    @add-cart="addToCart"
+  />
   <scroll-view scroll-y class="viewport">
     <PageSkeleton v-if="loadingPage" />
     <view v-else>
@@ -32,9 +45,9 @@
 
         <!-- 操作面板 -->
         <view class="action">
-          <view class="item arrow" @tap="showSKU = true">
+          <view class="item arrow" @tap="openSku(skuModeEnum.Both)">
             <text class="label">选择</text>
-            <text class="text ellipsis"> 请选择商品规格 </text>
+            <text class="text ellipsis"> {{ selectStr }} </text>
           </view>
           <view class="item arrow" @tap="openPopup('address')">
             <text class="label">送至</text>
@@ -102,13 +115,13 @@
       <button class="icons-button" open-type="contact">
         <text class="icon-handset"></text>客服
       </button>
-      <navigator class="icons-button" url="/pages/cart/cart" open-type="switchTab">
+      <navigator class="icons-button" url="/pages/cart/cart2" open-type="navigate">
         <text class="icon-cart"></text>购物车
       </navigator>
     </view>
     <view class="buttons">
-      <view class="addcart"> 加入购物车 </view>
-      <view class="buynow"> 立即购买 </view>
+      <view class="addcart" @tap="openSku(skuModeEnum.Cart)"> 加入购物车 </view>
+      <view class="buynow" @tap="openSku(skuModeEnum.Buy)"> 立即购买 </view>
     </view>
   </view>
 
@@ -119,7 +132,11 @@
   </uni-popup>
 </template>
 <script setup lang="ts">
-import type { SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
+import type {
+  SkuPopupEvent,
+  SkuPopupInstanceType,
+  SkuPopupLocaldata,
+} from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 import { getGoodsDetailApi } from '@/services/goods'
 import type { GoodsResult } from '@/types/goods'
 import { onLoad } from '@dcloudio/uni-app'
@@ -127,18 +144,32 @@ import { ref } from 'vue'
 import AddressPanel from '@/pages/goods/components/AddressPanel.vue'
 import ServicePanel from '@/pages/goods/components/ServicePanel.vue'
 import PageSkeleton from '@/pages/goods/components/PageSkeleton.vue'
+import { computed } from 'vue'
+import { postAddToCartApi } from '@/services/cart'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
-
-const showSKU = ref(false)
+const skuRef = ref<SkuPopupInstanceType>()
+const selectStr = computed(() => {
+  return skuRef.value?.selectArr?.join(' ').trim() || '请选择商品规格'
+})
+const showSku = ref(false)
 const goodsDetail = ref<GoodsResult>()
 const localData = ref({} as SkuPopupLocaldata)
 const query = defineProps<{ id: string }>()
+enum skuModeEnum {
+  Both = 1,
+  Cart = 2,
+  Buy = 3,
+}
+const skuMode = ref<skuModeEnum>(skuModeEnum.Both)
+const openSku = (mode: skuModeEnum) => {
+  skuMode.value = mode
+  showSku.value = true
+}
 const getGoodsDetail = async () => {
   const res = await getGoodsDetailApi(query)
   goodsDetail.value = res.result
-
   // 转换为SKU格式
   localData.value = {
     _id: res.result.id,
@@ -192,6 +223,16 @@ const onTapImg = (src: string) => {
     success: (result) => {},
     fail: (error) => {},
   })
+}
+
+const addToCart = async (e: SkuPopupEvent) => {
+  const res = await postAddToCartApi({
+    skuId: e._id,
+    count: e.buy_num,
+  })
+  console.log(res)
+  uni.showToast({ icon: 'success', title: '添加成功' })
+  showSku.value = false
 }
 </script>
 <style lang="scss">
