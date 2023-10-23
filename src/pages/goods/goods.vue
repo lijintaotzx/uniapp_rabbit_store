@@ -13,6 +13,7 @@
       backgroundColor: '#E9F8F5',
     }"
     @add-cart="addToCart"
+    @buy-now="onBuyNow"
   />
   <scroll-view scroll-y class="viewport">
     <PageSkeleton v-if="loadingPage" />
@@ -193,6 +194,11 @@ const getGoodsDetail = async () => {
       }
     }),
   }
+}
+const onBuyNow = (e: SkuPopupEvent) => {
+  uni.navigateTo({
+    url: `/pagesOrder/create/create?skuId=${e._id}&count=${e.buy_num}`,
+  })
 }
 const loadingPage = ref(true)
 // 弹出层组件ref

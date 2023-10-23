@@ -126,11 +126,14 @@ const totalPrice = computed(() => {
         <text class="all" :class="{ checked: selectedAll }" @tap="onSelectAll">全选</text>
         <text class="text">合计:</text>
         <text class="amount">{{ totalPrice }}</text>
-        <view class="button-grounp">
-          <view class="button payment-button" :class="{ disabled: totalCount === 0 }">
-            去结算({{ totalCount }})
+
+        <navigator url="/pagesOrder/create/create" hover-class="none">
+          <view class="button-grounp">
+            <view class="button payment-button" :class="{ disabled: totalCount === 0 }">
+              去结算({{ totalCount }})
+            </view>
           </view>
-        </view>
+        </navigator>
       </view>
     </template>
     <!-- 未登录: 提示登录 -->
